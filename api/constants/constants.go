@@ -422,6 +422,20 @@ const (
 	MaxAssumeStartDuration = time.Hour * 24 * 7
 )
 
+const (
+	// MaxHealthCheckInterval is the minimum interval between resource health
+	// checks.
+	MinHealthCheckInterval = 30 * time.Second
+	// MaxHealthCheckInterval is the maximum interval between resource health
+	// checks. Since timeout must be less than interval, this is effectively the
+	// maximum health check timeout as well.
+	MaxHealthCheckInterval = 300 * time.Second
+	// MinHealthCheckTimeout is the minimum resource health check timeout.
+	// There is no corresponding MaxHealthCheckTimeout, because timeout is
+	// bounded to be no greater than the interval.
+	MinHealthCheckTimeout = time.Second
+)
+
 // Constants for TLS routing connection upgrade. See RFD for more details:
 // https://github.com/gravitational/teleport/blob/master/rfd/0123-tls-routing-behind-layer7-lb.md
 const (
