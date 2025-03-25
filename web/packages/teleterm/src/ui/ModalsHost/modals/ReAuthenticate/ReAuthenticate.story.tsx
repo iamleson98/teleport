@@ -33,6 +33,7 @@ const promptMfaRequest = {
   clusterUri: makeRootCluster().uri,
   webauthn: false,
   totp: false,
+  perSessionMfa: false,
 };
 
 export const WithWebauthn = () => (
@@ -57,6 +58,21 @@ export const WithTotp = () => (
   <MockAppContextProvider>
     <ReAuthenticate
       promptMfaRequest={{ ...promptMfaRequest, totp: true }}
+      onSsoContinue={() => {}}
+      onCancel={() => {}}
+      onOtpSubmit={showToken}
+    />
+  </MockAppContextProvider>
+);
+
+export const WithTotpPerSessionMfa = () => (
+  <MockAppContextProvider>
+    <ReAuthenticate
+      promptMfaRequest={{
+        ...promptMfaRequest,
+        totp: true,
+        perSessionMfa: true,
+      }}
       onSsoContinue={() => {}}
       onCancel={() => {}}
       onOtpSubmit={showToken}
@@ -100,6 +116,28 @@ export const WithWebauthnAndTotpAndSSO = () => (
           displayName: 'Example SSO',
           redirectUrl: '',
         },
+      }}
+      onSsoContinue={() => {}}
+      onCancel={() => {}}
+      onOtpSubmit={showToken}
+    />
+  </MockAppContextProvider>
+);
+
+export const WithWebauthnAndTotpAndSSOPerSessionMfa = () => (
+  <MockAppContextProvider>
+    <ReAuthenticate
+      promptMfaRequest={{
+        ...promptMfaRequest,
+        webauthn: true,
+        totp: true,
+        sso: {
+          connectorId: '',
+          connectorType: '',
+          displayName: 'Example SSO',
+          redirectUrl: '',
+        },
+        perSessionMfa: true,
       }}
       onSsoContinue={() => {}}
       onCancel={() => {}}

@@ -16,9 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 
 import {
+  Alert,
   Box,
   ButtonIcon,
   ButtonPrimary,
@@ -26,6 +27,7 @@ import {
   Flex,
   H2,
   Image,
+  Link,
   Text,
 } from 'design';
 import DialogConfirmation, {
@@ -86,6 +88,38 @@ export const ReAuthenticate: FC<{
     routing.parseClusterName(clusterUri);
   const isLeafCluster = routing.isLeafCluster(clusterUri);
 
+  const totpPrompt = useMemo(() => {
+    if (req.perSessionMfa) {
+      const action =
+        availableMfaTypes.length > 1 ? (
+          'choose'
+        ) : (
+          <Link href={`${rootClusterUri}/web/account`}>set up</Link>
+        );
+      return (
+        <Alert kind="warning">
+          Authenticator App is no longer supported as a two-factor type for
+          per-session MFA. Please {action} another authentication method.
+        </Alert>
+      );
+    }
+
+    return (
+      <FieldInput
+        flex="1"
+        autoFocus
+        label="Authenticator Code"
+        rule={requiredToken}
+        inputMode="numeric"
+        autoComplete="one-time-code"
+        value={otpToken}
+        onChange={e => setOtpToken(e.target.value)}
+        placeholder="123 456"
+        mb={0}
+      />
+    );
+  }, [req, availableMfaTypes, setOtpToken]);
+
   return (
     <DialogConfirmation
       open={!props.hidden}
@@ -140,25 +174,13 @@ export const ReAuthenticate: FC<{
                       }}
                     />
                   )}
-
-                  {selectedMfaType.value === 'totp' ? (
-                    <FieldInput
-                      flex="1"
-                      autoFocus
-                      label="Authenticator Code"
-                      rule={requiredToken}
-                      inputMode="numeric"
-                      autoComplete="one-time-code"
-                      value={otpToken}
-                      onChange={e => setOtpToken(e.target.value)}
-                      placeholder="123 456"
-                      mb={0}
-                    />
-                  ) : (
-                    // Empty box to occupy hald of flex width if TOTP input is not shown.
-                    <Box flex="1" />
-                  )}
                 </Flex>
+                {selectedMfaType.value === 'totp' ? (
+                  totpPrompt
+                ) : (
+                  // Empty box to occupy hald of flex width if TOTP input is not shown.
+                  <Box flex="1" />
+                )}
 
                 {selectedMfaType.value === 'webauthn' && (
                   <>
@@ -181,7 +203,9 @@ export const ReAuthenticate: FC<{
             <DialogFooter>
               <Flex gap={3}>
                 {selectedMfaType.value === 'totp' && (
-                  <ButtonPrimary type="submit">Continue</ButtonPrimary>
+                  <ButtonPrimary type="submit" disabled={req.perSessionMfa}>
+                    Continue
+                  </ButtonPrimary>
                 )}
                 <ButtonSecondary type="button" onClick={props.onCancel}>
                   Cancel

@@ -48,96 +48,105 @@ import type { ReloginRequest } from "./tshd_events_service_pb";
 import type { UnaryCall } from "@protobuf-ts/runtime-rpc";
 import type { RpcOptions } from "@protobuf-ts/runtime-rpc";
 /**
- * TshdEventsService is served by the Electron app. The tsh daemon calls this service to notify the
- * app about actions that happen outside of the app itself.
+ * TshdEventsService is served by the Electron app. The tsh daemon calls this
+ * service to notify the app about actions that happen outside of the app
+ * itself.
  *
  * @generated from protobuf service teleport.lib.teleterm.v1.TshdEventsService
  */
 export interface ITshdEventsServiceClient {
     /**
-     * Relogin makes the Electron app display a login modal for the specific root cluster. The request
-     * returns a response after the relogin procedure has been successfully finished.
+     * Relogin makes the Electron app display a login modal for the specific root
+     * cluster. The request returns a response after the relogin procedure has
+     * been successfully finished.
      *
      * @generated from protobuf rpc: Relogin(teleport.lib.teleterm.v1.ReloginRequest) returns (teleport.lib.teleterm.v1.ReloginResponse);
      */
     relogin(input: ReloginRequest, options?: RpcOptions): UnaryCall<ReloginRequest, ReloginResponse>;
     /**
-     * SendNotification causes the Electron app to display a notification in the UI. The request
-     * accepts a specific message rather than a generic string so that the Electron is in control as
-     * to what message is displayed and how exactly it looks.
+     * SendNotification causes the Electron app to display a notification in the
+     * UI. The request accepts a specific message rather than a generic string so
+     * that the Electron is in control as to what message is displayed and how
+     * exactly it looks.
      *
      * @generated from protobuf rpc: SendNotification(teleport.lib.teleterm.v1.SendNotificationRequest) returns (teleport.lib.teleterm.v1.SendNotificationResponse);
      */
     sendNotification(input: SendNotificationRequest, options?: RpcOptions): UnaryCall<SendNotificationRequest, SendNotificationResponse>;
     /**
-     * SendPendingHeadlessAuthentication notifies the Electron app of a pending headless authentication,
-     * which it can use to initiate headless authentication resolution in the UI.
+     * SendPendingHeadlessAuthentication notifies the Electron app of a pending
+     * headless authentication, which it can use to initiate headless
+     * authentication resolution in the UI.
      *
      * @generated from protobuf rpc: SendPendingHeadlessAuthentication(teleport.lib.teleterm.v1.SendPendingHeadlessAuthenticationRequest) returns (teleport.lib.teleterm.v1.SendPendingHeadlessAuthenticationResponse);
      */
     sendPendingHeadlessAuthentication(input: SendPendingHeadlessAuthenticationRequest, options?: RpcOptions): UnaryCall<SendPendingHeadlessAuthenticationRequest, SendPendingHeadlessAuthenticationResponse>;
     /**
-     * PromptMFA notifies the Electron app that the daemon wants to prompt for MFA.
-     * If TOTP is supported, the Electron app can return a totp code to complete the ceremony.
-     * If Webauthn or SSO are supported, tsh daemon waits for the Electron App to choose
-     * an option in the response before prompting for either.
+     * PromptMFA notifies the Electron app that the daemon wants to prompt for
+     * MFA. If TOTP is supported, the Electron app can return a totp code to
+     * complete the ceremony. If Webauthn or SSO are supported, tsh daemon waits
+     * for the Electron App to choose an option in the response before prompting
+     * for either.
      *
-     * In order for the WebAuthn and SSO prompts to be reflected in the Electron App, the
-     * Electron app can display a waiting screen and listen for the tsh daemon to send a
-     * notification to close the screen.
+     * In order for the WebAuthn and SSO prompts to be reflected in the Electron
+     * App, the Electron app can display a waiting screen and listen for the tsh
+     * daemon to send a notification to close the screen.
      *
      * @generated from protobuf rpc: PromptMFA(teleport.lib.teleterm.v1.PromptMFARequest) returns (teleport.lib.teleterm.v1.PromptMFAResponse);
      */
     promptMFA(input: PromptMFARequest, options?: RpcOptions): UnaryCall<PromptMFARequest, PromptMFAResponse>;
     /**
-     * PromptHardwareKeyPIN notifies the Electron app that the daemon is waiting for the user to
-     * provide the hardware key PIN.
+     * PromptHardwareKeyPIN notifies the Electron app that the daemon is waiting
+     * for the user to provide the hardware key PIN.
      *
      * @generated from protobuf rpc: PromptHardwareKeyPIN(teleport.lib.teleterm.v1.PromptHardwareKeyPINRequest) returns (teleport.lib.teleterm.v1.PromptHardwareKeyPINResponse);
      */
     promptHardwareKeyPIN(input: PromptHardwareKeyPINRequest, options?: RpcOptions): UnaryCall<PromptHardwareKeyPINRequest, PromptHardwareKeyPINResponse>;
     /**
-     * PromptHardwareKeyTouch notifies the Electron app that the daemon is waiting for the user to touch the hardware key.
-     * When the daemon detects the touch, it cancels the prompt.
+     * PromptHardwareKeyTouch notifies the Electron app that the daemon is waiting
+     * for the user to touch the hardware key. When the daemon detects the touch,
+     * it cancels the prompt.
      *
      * @generated from protobuf rpc: PromptHardwareKeyTouch(teleport.lib.teleterm.v1.PromptHardwareKeyTouchRequest) returns (teleport.lib.teleterm.v1.PromptHardwareKeyTouchResponse);
      */
     promptHardwareKeyTouch(input: PromptHardwareKeyTouchRequest, options?: RpcOptions): UnaryCall<PromptHardwareKeyTouchRequest, PromptHardwareKeyTouchResponse>;
     /**
-     * PromptHardwareKeyPINChange notifies the Electron app that the daemon is waiting for the user to
-     * change the hardware key PIN.
+     * PromptHardwareKeyPINChange notifies the Electron app that the daemon is
+     * waiting for the user to change the hardware key PIN.
      *
      * @generated from protobuf rpc: PromptHardwareKeyPINChange(teleport.lib.teleterm.v1.PromptHardwareKeyPINChangeRequest) returns (teleport.lib.teleterm.v1.PromptHardwareKeyPINChangeResponse);
      */
     promptHardwareKeyPINChange(input: PromptHardwareKeyPINChangeRequest, options?: RpcOptions): UnaryCall<PromptHardwareKeyPINChangeRequest, PromptHardwareKeyPINChangeResponse>;
     /**
-     * ConfirmHardwareKeySlotOverwrite displays a dialog prompting the user to confirm whether
-     * the slot's private key and certificate should be overwritten.
+     * ConfirmHardwareKeySlotOverwrite displays a dialog prompting the user to
+     * confirm whether the slot's private key and certificate should be
+     * overwritten.
      *
      * @generated from protobuf rpc: ConfirmHardwareKeySlotOverwrite(teleport.lib.teleterm.v1.ConfirmHardwareKeySlotOverwriteRequest) returns (teleport.lib.teleterm.v1.ConfirmHardwareKeySlotOverwriteResponse);
      */
     confirmHardwareKeySlotOverwrite(input: ConfirmHardwareKeySlotOverwriteRequest, options?: RpcOptions): UnaryCall<ConfirmHardwareKeySlotOverwriteRequest, ConfirmHardwareKeySlotOverwriteResponse>;
     /**
      * GetUsageReportingSettings returns the current state of usage reporting.
-     * At the moment, the user cannot toggle usage reporting on and off without shutting down the app,
-     * with the only exception being the first start of the app when they're prompted about telemetry.
-     * Hence why this is an RPC and not information passed over argv to tsh daemon.
+     * At the moment, the user cannot toggle usage reporting on and off without
+     * shutting down the app, with the only exception being the first start of the
+     * app when they're prompted about telemetry. Hence why this is an RPC and not
+     * information passed over argv to tsh daemon.
      *
      * @generated from protobuf rpc: GetUsageReportingSettings(teleport.lib.teleterm.v1.GetUsageReportingSettingsRequest) returns (teleport.lib.teleterm.v1.GetUsageReportingSettingsResponse);
      */
     getUsageReportingSettings(input: GetUsageReportingSettingsRequest, options?: RpcOptions): UnaryCall<GetUsageReportingSettingsRequest, GetUsageReportingSettingsResponse>;
     /**
-     * ReportUnexpectedVnetShutdown is sent by tsh daemon when VNet exits outside of the
-     * request-response cycle of Start and Stop RPCs of VnetService. The Electron app is then able to
-     * update the state of VNet in the UI.
+     * ReportUnexpectedVnetShutdown is sent by tsh daemon when VNet exits outside
+     * of the request-response cycle of Start and Stop RPCs of VnetService. The
+     * Electron app is then able to update the state of VNet in the UI.
      *
      * @generated from protobuf rpc: ReportUnexpectedVnetShutdown(teleport.lib.teleterm.v1.ReportUnexpectedVnetShutdownRequest) returns (teleport.lib.teleterm.v1.ReportUnexpectedVnetShutdownResponse);
      */
     reportUnexpectedVnetShutdown(input: ReportUnexpectedVnetShutdownRequest, options?: RpcOptions): UnaryCall<ReportUnexpectedVnetShutdownRequest, ReportUnexpectedVnetShutdownResponse>;
 }
 /**
- * TshdEventsService is served by the Electron app. The tsh daemon calls this service to notify the
- * app about actions that happen outside of the app itself.
+ * TshdEventsService is served by the Electron app. The tsh daemon calls this
+ * service to notify the app about actions that happen outside of the app
+ * itself.
  *
  * @generated from protobuf service teleport.lib.teleterm.v1.TshdEventsService
  */
@@ -148,8 +157,9 @@ export class TshdEventsServiceClient implements ITshdEventsServiceClient, Servic
     constructor(private readonly _transport: RpcTransport) {
     }
     /**
-     * Relogin makes the Electron app display a login modal for the specific root cluster. The request
-     * returns a response after the relogin procedure has been successfully finished.
+     * Relogin makes the Electron app display a login modal for the specific root
+     * cluster. The request returns a response after the relogin procedure has
+     * been successfully finished.
      *
      * @generated from protobuf rpc: Relogin(teleport.lib.teleterm.v1.ReloginRequest) returns (teleport.lib.teleterm.v1.ReloginResponse);
      */
@@ -158,9 +168,10 @@ export class TshdEventsServiceClient implements ITshdEventsServiceClient, Servic
         return stackIntercept<ReloginRequest, ReloginResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * SendNotification causes the Electron app to display a notification in the UI. The request
-     * accepts a specific message rather than a generic string so that the Electron is in control as
-     * to what message is displayed and how exactly it looks.
+     * SendNotification causes the Electron app to display a notification in the
+     * UI. The request accepts a specific message rather than a generic string so
+     * that the Electron is in control as to what message is displayed and how
+     * exactly it looks.
      *
      * @generated from protobuf rpc: SendNotification(teleport.lib.teleterm.v1.SendNotificationRequest) returns (teleport.lib.teleterm.v1.SendNotificationResponse);
      */
@@ -169,8 +180,9 @@ export class TshdEventsServiceClient implements ITshdEventsServiceClient, Servic
         return stackIntercept<SendNotificationRequest, SendNotificationResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * SendPendingHeadlessAuthentication notifies the Electron app of a pending headless authentication,
-     * which it can use to initiate headless authentication resolution in the UI.
+     * SendPendingHeadlessAuthentication notifies the Electron app of a pending
+     * headless authentication, which it can use to initiate headless
+     * authentication resolution in the UI.
      *
      * @generated from protobuf rpc: SendPendingHeadlessAuthentication(teleport.lib.teleterm.v1.SendPendingHeadlessAuthenticationRequest) returns (teleport.lib.teleterm.v1.SendPendingHeadlessAuthenticationResponse);
      */
@@ -179,14 +191,15 @@ export class TshdEventsServiceClient implements ITshdEventsServiceClient, Servic
         return stackIntercept<SendPendingHeadlessAuthenticationRequest, SendPendingHeadlessAuthenticationResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * PromptMFA notifies the Electron app that the daemon wants to prompt for MFA.
-     * If TOTP is supported, the Electron app can return a totp code to complete the ceremony.
-     * If Webauthn or SSO are supported, tsh daemon waits for the Electron App to choose
-     * an option in the response before prompting for either.
+     * PromptMFA notifies the Electron app that the daemon wants to prompt for
+     * MFA. If TOTP is supported, the Electron app can return a totp code to
+     * complete the ceremony. If Webauthn or SSO are supported, tsh daemon waits
+     * for the Electron App to choose an option in the response before prompting
+     * for either.
      *
-     * In order for the WebAuthn and SSO prompts to be reflected in the Electron App, the
-     * Electron app can display a waiting screen and listen for the tsh daemon to send a
-     * notification to close the screen.
+     * In order for the WebAuthn and SSO prompts to be reflected in the Electron
+     * App, the Electron app can display a waiting screen and listen for the tsh
+     * daemon to send a notification to close the screen.
      *
      * @generated from protobuf rpc: PromptMFA(teleport.lib.teleterm.v1.PromptMFARequest) returns (teleport.lib.teleterm.v1.PromptMFAResponse);
      */
@@ -195,8 +208,8 @@ export class TshdEventsServiceClient implements ITshdEventsServiceClient, Servic
         return stackIntercept<PromptMFARequest, PromptMFAResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * PromptHardwareKeyPIN notifies the Electron app that the daemon is waiting for the user to
-     * provide the hardware key PIN.
+     * PromptHardwareKeyPIN notifies the Electron app that the daemon is waiting
+     * for the user to provide the hardware key PIN.
      *
      * @generated from protobuf rpc: PromptHardwareKeyPIN(teleport.lib.teleterm.v1.PromptHardwareKeyPINRequest) returns (teleport.lib.teleterm.v1.PromptHardwareKeyPINResponse);
      */
@@ -205,8 +218,9 @@ export class TshdEventsServiceClient implements ITshdEventsServiceClient, Servic
         return stackIntercept<PromptHardwareKeyPINRequest, PromptHardwareKeyPINResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * PromptHardwareKeyTouch notifies the Electron app that the daemon is waiting for the user to touch the hardware key.
-     * When the daemon detects the touch, it cancels the prompt.
+     * PromptHardwareKeyTouch notifies the Electron app that the daemon is waiting
+     * for the user to touch the hardware key. When the daemon detects the touch,
+     * it cancels the prompt.
      *
      * @generated from protobuf rpc: PromptHardwareKeyTouch(teleport.lib.teleterm.v1.PromptHardwareKeyTouchRequest) returns (teleport.lib.teleterm.v1.PromptHardwareKeyTouchResponse);
      */
@@ -215,8 +229,8 @@ export class TshdEventsServiceClient implements ITshdEventsServiceClient, Servic
         return stackIntercept<PromptHardwareKeyTouchRequest, PromptHardwareKeyTouchResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * PromptHardwareKeyPINChange notifies the Electron app that the daemon is waiting for the user to
-     * change the hardware key PIN.
+     * PromptHardwareKeyPINChange notifies the Electron app that the daemon is
+     * waiting for the user to change the hardware key PIN.
      *
      * @generated from protobuf rpc: PromptHardwareKeyPINChange(teleport.lib.teleterm.v1.PromptHardwareKeyPINChangeRequest) returns (teleport.lib.teleterm.v1.PromptHardwareKeyPINChangeResponse);
      */
@@ -225,8 +239,9 @@ export class TshdEventsServiceClient implements ITshdEventsServiceClient, Servic
         return stackIntercept<PromptHardwareKeyPINChangeRequest, PromptHardwareKeyPINChangeResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * ConfirmHardwareKeySlotOverwrite displays a dialog prompting the user to confirm whether
-     * the slot's private key and certificate should be overwritten.
+     * ConfirmHardwareKeySlotOverwrite displays a dialog prompting the user to
+     * confirm whether the slot's private key and certificate should be
+     * overwritten.
      *
      * @generated from protobuf rpc: ConfirmHardwareKeySlotOverwrite(teleport.lib.teleterm.v1.ConfirmHardwareKeySlotOverwriteRequest) returns (teleport.lib.teleterm.v1.ConfirmHardwareKeySlotOverwriteResponse);
      */
@@ -236,9 +251,10 @@ export class TshdEventsServiceClient implements ITshdEventsServiceClient, Servic
     }
     /**
      * GetUsageReportingSettings returns the current state of usage reporting.
-     * At the moment, the user cannot toggle usage reporting on and off without shutting down the app,
-     * with the only exception being the first start of the app when they're prompted about telemetry.
-     * Hence why this is an RPC and not information passed over argv to tsh daemon.
+     * At the moment, the user cannot toggle usage reporting on and off without
+     * shutting down the app, with the only exception being the first start of the
+     * app when they're prompted about telemetry. Hence why this is an RPC and not
+     * information passed over argv to tsh daemon.
      *
      * @generated from protobuf rpc: GetUsageReportingSettings(teleport.lib.teleterm.v1.GetUsageReportingSettingsRequest) returns (teleport.lib.teleterm.v1.GetUsageReportingSettingsResponse);
      */
@@ -247,9 +263,9 @@ export class TshdEventsServiceClient implements ITshdEventsServiceClient, Servic
         return stackIntercept<GetUsageReportingSettingsRequest, GetUsageReportingSettingsResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * ReportUnexpectedVnetShutdown is sent by tsh daemon when VNet exits outside of the
-     * request-response cycle of Start and Stop RPCs of VnetService. The Electron app is then able to
-     * update the state of VNet in the UI.
+     * ReportUnexpectedVnetShutdown is sent by tsh daemon when VNet exits outside
+     * of the request-response cycle of Start and Stop RPCs of VnetService. The
+     * Electron app is then able to update the state of VNet in the UI.
      *
      * @generated from protobuf rpc: ReportUnexpectedVnetShutdown(teleport.lib.teleterm.v1.ReportUnexpectedVnetShutdownRequest) returns (teleport.lib.teleterm.v1.ReportUnexpectedVnetShutdownResponse);
      */

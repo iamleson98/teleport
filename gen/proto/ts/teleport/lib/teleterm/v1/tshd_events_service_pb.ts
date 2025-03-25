@@ -63,12 +63,13 @@ export interface ReloginRequest {
     };
 }
 /**
- * GatewayCertExpired is given as the reason when a database client attempts to make a connection
- * through the gateway, the gateway middleware notices that the db cert has expired and tries to
- * connect to the cluster to reissue the cert, but fails because the user cert has expired as well.
+ * GatewayCertExpired is given as the reason when a database client attempts to
+ * make a connection through the gateway, the gateway middleware notices that
+ * the db cert has expired and tries to connect to the cluster to reissue the
+ * cert, but fails because the user cert has expired as well.
  *
- * At that point in order to let the connection through, tshd needs the Electron app to refresh the
- * user cert by asking the user to log in again.
+ * At that point in order to let the connection through, tshd needs the Electron
+ * app to refresh the user cert by asking the user to log in again.
  *
  * @generated from protobuf message teleport.lib.teleterm.v1.GatewayCertExpired
  */
@@ -83,19 +84,22 @@ export interface GatewayCertExpired {
     targetUri: string;
 }
 /**
- * VnetCertExpired describes which app the user was trying to reach with an expired cert.
+ * VnetCertExpired describes which app the user was trying to reach with an
+ * expired cert.
  *
  * @generated from protobuf message teleport.lib.teleterm.v1.VnetCertExpired
  */
 export interface VnetCertExpired {
     /**
-     * target_uri for now points solely at apps, but it's not called app_uri to make it future-proof.
+     * target_uri for now points solely at apps, but it's not called app_uri to
+     * make it future-proof.
      *
      * @generated from protobuf field: string target_uri = 1;
      */
     targetUri: string;
     /**
-     * route_to_app is the metadata associated with the app that the user was trying to reach.
+     * route_to_app is the metadata associated with the app that the user was
+     * trying to reach.
      *
      * @generated from protobuf field: teleport.lib.teleterm.v1.RouteToApp route_to_app = 3;
      */
@@ -111,9 +115,9 @@ export interface ReloginResponse {
 /**
  * SendNotificationRequest includes details behind a notification.
  *
- * Rather than including arbitrary text strings, SendNotificationRequest should contain minimal
- * details. The Electron app can then consume and format them as needed, without having to change
- * what is sent over the wire.
+ * Rather than including arbitrary text strings, SendNotificationRequest should
+ * contain minimal details. The Electron app can then consume and format them as
+ * needed, without having to change what is sent over the wire.
  *
  * @generated from protobuf message teleport.lib.teleterm.v1.SendNotificationRequest
  */
@@ -138,10 +142,11 @@ export interface SendNotificationRequest {
     };
 }
 /**
- * CannotProxyGatewayConnection is the subject when the middleware used by the gateway encounters an
- * unrecoverable error and cannot let the connection through. The middleware code is executed within
- * a separate goroutine so if the error wasn't passed to the Electron app, it would have been
- * visible only in the logs.
+ * CannotProxyGatewayConnection is the subject when the middleware used by the
+ * gateway encounters an unrecoverable error and cannot let the connection
+ * through. The middleware code is executed within a separate goroutine so if
+ * the error wasn't passed to the Electron app, it would have been visible only
+ * in the logs.
  *
  * @generated from protobuf message teleport.lib.teleterm.v1.CannotProxyGatewayConnection
  */
@@ -160,7 +165,8 @@ export interface CannotProxyGatewayConnection {
     error: string;
 }
 /**
- * CannotProxyVnetConnection describes which app couldn't have been proxied through VNet and why.
+ * CannotProxyVnetConnection describes which app couldn't have been proxied
+ * through VNet and why.
  *
  * @generated from protobuf message teleport.lib.teleterm.v1.CannotProxyVnetConnection
  */
@@ -170,7 +176,8 @@ export interface CannotProxyVnetConnection {
      */
     targetUri: string;
     /**
-     * route_to_app is the metadata associated with the app that the user was trying to reach.
+     * route_to_app is the metadata associated with the app that the user was
+     * trying to reach.
      *
      * @generated from protobuf field: teleport.lib.teleterm.v1.RouteToApp route_to_app = 4;
      */
@@ -195,8 +202,8 @@ export interface CannotProxyVnetConnection {
     };
 }
 /**
- * CertReissueError is sent as reason in CannotProxyVnetConnection when VNet wasn't able to reissue
- * a cert for a local proxy.
+ * CertReissueError is sent as reason in CannotProxyVnetConnection when VNet
+ * wasn't able to reissue a cert for a local proxy.
  *
  * @generated from protobuf message teleport.lib.teleterm.v1.CertReissueError
  */
@@ -207,16 +214,17 @@ export interface CertReissueError {
     error: string;
 }
 /**
- * InvalidLocalPort is sent as reason in CannotProxyVnetConnection when VNet refused a connection
- * because its local port did not match any TCP ports in the spec of the app. The port is included
- * in route_to_app as target_port.
+ * InvalidLocalPort is sent as reason in CannotProxyVnetConnection when VNet
+ * refused a connection because its local port did not match any TCP ports in
+ * the spec of the app. The port is included in route_to_app as target_port.
  *
  * @generated from protobuf message teleport.lib.teleterm.v1.InvalidLocalPort
  */
 export interface InvalidLocalPort {
     /**
-     * tcp_ports represents valid port ranges for the app. Sent only if there's less than 10 port
-     * ranges to keep the UI clean and to limit how much data is sent on each failed attempt.
+     * tcp_ports represents valid port ranges for the app. Sent only if there's
+     * less than 10 port ranges to keep the UI clean and to limit how much data is
+     * sent on each failed attempt.
      *
      * @generated from protobuf field: repeated teleport.lib.teleterm.v1.PortRange tcp_ports = 1;
      */
@@ -281,6 +289,10 @@ export interface PromptMFARequest {
      * @generated from protobuf field: teleport.lib.teleterm.v1.SSOChallenge sso = 6;
      */
     sso?: SSOChallenge;
+    /**
+     * @generated from protobuf field: bool per_session_mfa = 7;
+     */
+    perSessionMfa: boolean;
 }
 /**
  * SSOChallenge contains SSO challenge details.
@@ -327,7 +339,8 @@ export interface PromptHardwareKeyPINRequest {
      */
     rootClusterUri: string;
     /**
-     * Specifies if a PIN is optional, allowing the user to set it up if left empty.
+     * Specifies if a PIN is optional, allowing the user to set it up if left
+     * empty.
      *
      * @generated from protobuf field: bool pin_optional = 2;
      */
@@ -450,8 +463,8 @@ export interface GetUsageReportingSettingsResponse {
     usageReportingSettings?: UsageReportingSettings;
 }
 /**
- * UsageReportingSettings contains information about usage reporting as understood by the Electron
- * app.
+ * UsageReportingSettings contains information about usage reporting as
+ * understood by the Electron app.
  *
  * @generated from protobuf message teleport.lib.teleterm.v1.UsageReportingSettings
  */
@@ -468,8 +481,8 @@ export interface UsageReportingSettings {
  */
 export interface ReportUnexpectedVnetShutdownRequest {
     /**
-     * error is the error message with which VNet was shut down. Technically it can be empty, so
-     * consumers should account for that.
+     * error is the error message with which VNet was shut down. Technically it
+     * can be empty, so consumers should account for that.
      *
      * @generated from protobuf field: string error = 1;
      */
@@ -1097,7 +1110,8 @@ class PromptMFARequest$Type extends MessageType<PromptMFARequest> {
             { no: 3, name: "totp", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 4, name: "webauthn", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 5, name: "cluster_uri", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "sso", kind: "message", T: () => SSOChallenge }
+            { no: 6, name: "sso", kind: "message", T: () => SSOChallenge },
+            { no: 7, name: "per_session_mfa", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
     create(value?: PartialMessage<PromptMFARequest>): PromptMFARequest {
@@ -1106,6 +1120,7 @@ class PromptMFARequest$Type extends MessageType<PromptMFARequest> {
         message.totp = false;
         message.webauthn = false;
         message.clusterUri = "";
+        message.perSessionMfa = false;
         if (value !== undefined)
             reflectionMergePartial<PromptMFARequest>(this, message, value);
         return message;
@@ -1129,6 +1144,9 @@ class PromptMFARequest$Type extends MessageType<PromptMFARequest> {
                     break;
                 case /* teleport.lib.teleterm.v1.SSOChallenge sso */ 6:
                     message.sso = SSOChallenge.internalBinaryRead(reader, reader.uint32(), options, message.sso);
+                    break;
+                case /* bool per_session_mfa */ 7:
+                    message.perSessionMfa = reader.bool();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1157,6 +1175,9 @@ class PromptMFARequest$Type extends MessageType<PromptMFARequest> {
         /* teleport.lib.teleterm.v1.SSOChallenge sso = 6; */
         if (message.sso)
             SSOChallenge.internalBinaryWrite(message.sso, writer.tag(6, WireType.LengthDelimited).fork(), options).join();
+        /* bool per_session_mfa = 7; */
+        if (message.perSessionMfa !== false)
+            writer.tag(7, WireType.Varint).bool(message.perSessionMfa);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
