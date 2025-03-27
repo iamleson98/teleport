@@ -52,56 +52,48 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// TshdEventsService is served by the Electron app. The tsh daemon calls this
-// service to notify the app about actions that happen outside of the app
-// itself.
+// TshdEventsService is served by the Electron app. The tsh daemon calls this service to notify the
+// app about actions that happen outside of the app itself.
 type TshdEventsServiceClient interface {
-	// Relogin makes the Electron app display a login modal for the specific root
-	// cluster. The request returns a response after the relogin procedure has
-	// been successfully finished.
+	// Relogin makes the Electron app display a login modal for the specific root cluster. The request
+	// returns a response after the relogin procedure has been successfully finished.
 	Relogin(ctx context.Context, in *ReloginRequest, opts ...grpc.CallOption) (*ReloginResponse, error)
-	// SendNotification causes the Electron app to display a notification in the
-	// UI. The request accepts a specific message rather than a generic string so
-	// that the Electron is in control as to what message is displayed and how
-	// exactly it looks.
+	// SendNotification causes the Electron app to display a notification in the UI. The request
+	// accepts a specific message rather than a generic string so that the Electron is in control as
+	// to what message is displayed and how exactly it looks.
 	SendNotification(ctx context.Context, in *SendNotificationRequest, opts ...grpc.CallOption) (*SendNotificationResponse, error)
-	// SendPendingHeadlessAuthentication notifies the Electron app of a pending
-	// headless authentication, which it can use to initiate headless
-	// authentication resolution in the UI.
+	// SendPendingHeadlessAuthentication notifies the Electron app of a pending headless authentication,
+	// which it can use to initiate headless authentication resolution in the UI.
 	SendPendingHeadlessAuthentication(ctx context.Context, in *SendPendingHeadlessAuthenticationRequest, opts ...grpc.CallOption) (*SendPendingHeadlessAuthenticationResponse, error)
-	// PromptMFA notifies the Electron app that the daemon wants to prompt for
-	// MFA. If TOTP is supported, the Electron app can return a totp code to
-	// complete the ceremony. If Webauthn or SSO are supported, tsh daemon waits
-	// for the Electron App to choose an option in the response before prompting
-	// for either.
+	// PromptMFA notifies the Electron app that the daemon wants to prompt for MFA.
+	// If TOTP is supported, the Electron app can return a totp code to complete the ceremony.
+	// If Webauthn or SSO are supported, tsh daemon waits for the Electron App to choose
+	// an option in the response before prompting for either.
 	//
-	// In order for the WebAuthn and SSO prompts to be reflected in the Electron
-	// App, the Electron app can display a waiting screen and listen for the tsh
-	// daemon to send a notification to close the screen.
+	// In order for the WebAuthn and SSO prompts to be reflected in the Electron App, the
+	// Electron app can display a waiting screen and listen for the tsh daemon to send a
+	// notification to close the screen.
 	PromptMFA(ctx context.Context, in *PromptMFARequest, opts ...grpc.CallOption) (*PromptMFAResponse, error)
-	// PromptHardwareKeyPIN notifies the Electron app that the daemon is waiting
-	// for the user to provide the hardware key PIN.
+	// PromptHardwareKeyPIN notifies the Electron app that the daemon is waiting for the user to
+	// provide the hardware key PIN.
 	PromptHardwareKeyPIN(ctx context.Context, in *PromptHardwareKeyPINRequest, opts ...grpc.CallOption) (*PromptHardwareKeyPINResponse, error)
-	// PromptHardwareKeyTouch notifies the Electron app that the daemon is waiting
-	// for the user to touch the hardware key. When the daemon detects the touch,
-	// it cancels the prompt.
+	// PromptHardwareKeyTouch notifies the Electron app that the daemon is waiting for the user to touch the hardware key.
+	// When the daemon detects the touch, it cancels the prompt.
 	PromptHardwareKeyTouch(ctx context.Context, in *PromptHardwareKeyTouchRequest, opts ...grpc.CallOption) (*PromptHardwareKeyTouchResponse, error)
-	// PromptHardwareKeyPINChange notifies the Electron app that the daemon is
-	// waiting for the user to change the hardware key PIN.
+	// PromptHardwareKeyPINChange notifies the Electron app that the daemon is waiting for the user to
+	// change the hardware key PIN.
 	PromptHardwareKeyPINChange(ctx context.Context, in *PromptHardwareKeyPINChangeRequest, opts ...grpc.CallOption) (*PromptHardwareKeyPINChangeResponse, error)
-	// ConfirmHardwareKeySlotOverwrite displays a dialog prompting the user to
-	// confirm whether the slot's private key and certificate should be
-	// overwritten.
+	// ConfirmHardwareKeySlotOverwrite displays a dialog prompting the user to confirm whether
+	// the slot's private key and certificate should be overwritten.
 	ConfirmHardwareKeySlotOverwrite(ctx context.Context, in *ConfirmHardwareKeySlotOverwriteRequest, opts ...grpc.CallOption) (*ConfirmHardwareKeySlotOverwriteResponse, error)
 	// GetUsageReportingSettings returns the current state of usage reporting.
-	// At the moment, the user cannot toggle usage reporting on and off without
-	// shutting down the app, with the only exception being the first start of the
-	// app when they're prompted about telemetry. Hence why this is an RPC and not
-	// information passed over argv to tsh daemon.
+	// At the moment, the user cannot toggle usage reporting on and off without shutting down the app,
+	// with the only exception being the first start of the app when they're prompted about telemetry.
+	// Hence why this is an RPC and not information passed over argv to tsh daemon.
 	GetUsageReportingSettings(ctx context.Context, in *GetUsageReportingSettingsRequest, opts ...grpc.CallOption) (*GetUsageReportingSettingsResponse, error)
-	// ReportUnexpectedVnetShutdown is sent by tsh daemon when VNet exits outside
-	// of the request-response cycle of Start and Stop RPCs of VnetService. The
-	// Electron app is then able to update the state of VNet in the UI.
+	// ReportUnexpectedVnetShutdown is sent by tsh daemon when VNet exits outside of the
+	// request-response cycle of Start and Stop RPCs of VnetService. The Electron app is then able to
+	// update the state of VNet in the UI.
 	ReportUnexpectedVnetShutdown(ctx context.Context, in *ReportUnexpectedVnetShutdownRequest, opts ...grpc.CallOption) (*ReportUnexpectedVnetShutdownResponse, error)
 }
 
@@ -217,56 +209,48 @@ func (c *tshdEventsServiceClient) ReportUnexpectedVnetShutdown(ctx context.Conte
 // All implementations must embed UnimplementedTshdEventsServiceServer
 // for forward compatibility.
 //
-// TshdEventsService is served by the Electron app. The tsh daemon calls this
-// service to notify the app about actions that happen outside of the app
-// itself.
+// TshdEventsService is served by the Electron app. The tsh daemon calls this service to notify the
+// app about actions that happen outside of the app itself.
 type TshdEventsServiceServer interface {
-	// Relogin makes the Electron app display a login modal for the specific root
-	// cluster. The request returns a response after the relogin procedure has
-	// been successfully finished.
+	// Relogin makes the Electron app display a login modal for the specific root cluster. The request
+	// returns a response after the relogin procedure has been successfully finished.
 	Relogin(context.Context, *ReloginRequest) (*ReloginResponse, error)
-	// SendNotification causes the Electron app to display a notification in the
-	// UI. The request accepts a specific message rather than a generic string so
-	// that the Electron is in control as to what message is displayed and how
-	// exactly it looks.
+	// SendNotification causes the Electron app to display a notification in the UI. The request
+	// accepts a specific message rather than a generic string so that the Electron is in control as
+	// to what message is displayed and how exactly it looks.
 	SendNotification(context.Context, *SendNotificationRequest) (*SendNotificationResponse, error)
-	// SendPendingHeadlessAuthentication notifies the Electron app of a pending
-	// headless authentication, which it can use to initiate headless
-	// authentication resolution in the UI.
+	// SendPendingHeadlessAuthentication notifies the Electron app of a pending headless authentication,
+	// which it can use to initiate headless authentication resolution in the UI.
 	SendPendingHeadlessAuthentication(context.Context, *SendPendingHeadlessAuthenticationRequest) (*SendPendingHeadlessAuthenticationResponse, error)
-	// PromptMFA notifies the Electron app that the daemon wants to prompt for
-	// MFA. If TOTP is supported, the Electron app can return a totp code to
-	// complete the ceremony. If Webauthn or SSO are supported, tsh daemon waits
-	// for the Electron App to choose an option in the response before prompting
-	// for either.
+	// PromptMFA notifies the Electron app that the daemon wants to prompt for MFA.
+	// If TOTP is supported, the Electron app can return a totp code to complete the ceremony.
+	// If Webauthn or SSO are supported, tsh daemon waits for the Electron App to choose
+	// an option in the response before prompting for either.
 	//
-	// In order for the WebAuthn and SSO prompts to be reflected in the Electron
-	// App, the Electron app can display a waiting screen and listen for the tsh
-	// daemon to send a notification to close the screen.
+	// In order for the WebAuthn and SSO prompts to be reflected in the Electron App, the
+	// Electron app can display a waiting screen and listen for the tsh daemon to send a
+	// notification to close the screen.
 	PromptMFA(context.Context, *PromptMFARequest) (*PromptMFAResponse, error)
-	// PromptHardwareKeyPIN notifies the Electron app that the daemon is waiting
-	// for the user to provide the hardware key PIN.
+	// PromptHardwareKeyPIN notifies the Electron app that the daemon is waiting for the user to
+	// provide the hardware key PIN.
 	PromptHardwareKeyPIN(context.Context, *PromptHardwareKeyPINRequest) (*PromptHardwareKeyPINResponse, error)
-	// PromptHardwareKeyTouch notifies the Electron app that the daemon is waiting
-	// for the user to touch the hardware key. When the daemon detects the touch,
-	// it cancels the prompt.
+	// PromptHardwareKeyTouch notifies the Electron app that the daemon is waiting for the user to touch the hardware key.
+	// When the daemon detects the touch, it cancels the prompt.
 	PromptHardwareKeyTouch(context.Context, *PromptHardwareKeyTouchRequest) (*PromptHardwareKeyTouchResponse, error)
-	// PromptHardwareKeyPINChange notifies the Electron app that the daemon is
-	// waiting for the user to change the hardware key PIN.
+	// PromptHardwareKeyPINChange notifies the Electron app that the daemon is waiting for the user to
+	// change the hardware key PIN.
 	PromptHardwareKeyPINChange(context.Context, *PromptHardwareKeyPINChangeRequest) (*PromptHardwareKeyPINChangeResponse, error)
-	// ConfirmHardwareKeySlotOverwrite displays a dialog prompting the user to
-	// confirm whether the slot's private key and certificate should be
-	// overwritten.
+	// ConfirmHardwareKeySlotOverwrite displays a dialog prompting the user to confirm whether
+	// the slot's private key and certificate should be overwritten.
 	ConfirmHardwareKeySlotOverwrite(context.Context, *ConfirmHardwareKeySlotOverwriteRequest) (*ConfirmHardwareKeySlotOverwriteResponse, error)
 	// GetUsageReportingSettings returns the current state of usage reporting.
-	// At the moment, the user cannot toggle usage reporting on and off without
-	// shutting down the app, with the only exception being the first start of the
-	// app when they're prompted about telemetry. Hence why this is an RPC and not
-	// information passed over argv to tsh daemon.
+	// At the moment, the user cannot toggle usage reporting on and off without shutting down the app,
+	// with the only exception being the first start of the app when they're prompted about telemetry.
+	// Hence why this is an RPC and not information passed over argv to tsh daemon.
 	GetUsageReportingSettings(context.Context, *GetUsageReportingSettingsRequest) (*GetUsageReportingSettingsResponse, error)
-	// ReportUnexpectedVnetShutdown is sent by tsh daemon when VNet exits outside
-	// of the request-response cycle of Start and Stop RPCs of VnetService. The
-	// Electron app is then able to update the state of VNet in the UI.
+	// ReportUnexpectedVnetShutdown is sent by tsh daemon when VNet exits outside of the
+	// request-response cycle of Start and Stop RPCs of VnetService. The Electron app is then able to
+	// update the state of VNet in the UI.
 	ReportUnexpectedVnetShutdown(context.Context, *ReportUnexpectedVnetShutdownRequest) (*ReportUnexpectedVnetShutdownResponse, error)
 	mustEmbedUnimplementedTshdEventsServiceServer()
 }

@@ -129,13 +129,12 @@ func (*ReloginRequest_GatewayCertExpired) isReloginRequest_Reason() {}
 
 func (*ReloginRequest_VnetCertExpired) isReloginRequest_Reason() {}
 
-// GatewayCertExpired is given as the reason when a database client attempts to
-// make a connection through the gateway, the gateway middleware notices that
-// the db cert has expired and tries to connect to the cluster to reissue the
-// cert, but fails because the user cert has expired as well.
+// GatewayCertExpired is given as the reason when a database client attempts to make a connection
+// through the gateway, the gateway middleware notices that the db cert has expired and tries to
+// connect to the cluster to reissue the cert, but fails because the user cert has expired as well.
 //
-// At that point in order to let the connection through, tshd needs the Electron
-// app to refresh the user cert by asking the user to log in again.
+// At that point in order to let the connection through, tshd needs the Electron app to refresh the
+// user cert by asking the user to log in again.
 type GatewayCertExpired struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	GatewayUri    string                 `protobuf:"bytes,1,opt,name=gateway_uri,json=gatewayUri,proto3" json:"gateway_uri,omitempty"`
@@ -188,15 +187,12 @@ func (x *GatewayCertExpired) GetTargetUri() string {
 	return ""
 }
 
-// VnetCertExpired describes which app the user was trying to reach with an
-// expired cert.
+// VnetCertExpired describes which app the user was trying to reach with an expired cert.
 type VnetCertExpired struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// target_uri for now points solely at apps, but it's not called app_uri to
-	// make it future-proof.
+	// target_uri for now points solely at apps, but it's not called app_uri to make it future-proof.
 	TargetUri string `protobuf:"bytes,1,opt,name=target_uri,json=targetUri,proto3" json:"target_uri,omitempty"`
-	// route_to_app is the metadata associated with the app that the user was
-	// trying to reach.
+	// route_to_app is the metadata associated with the app that the user was trying to reach.
 	RouteToApp    *RouteToApp `protobuf:"bytes,3,opt,name=route_to_app,json=routeToApp,proto3" json:"route_to_app,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -285,9 +281,9 @@ func (*ReloginResponse) Descriptor() ([]byte, []int) {
 
 // SendNotificationRequest includes details behind a notification.
 //
-// Rather than including arbitrary text strings, SendNotificationRequest should
-// contain minimal details. The Electron app can then consume and format them as
-// needed, without having to change what is sent over the wire.
+// Rather than including arbitrary text strings, SendNotificationRequest should contain minimal
+// details. The Electron app can then consume and format them as needed, without having to change
+// what is sent over the wire.
 type SendNotificationRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Types that are valid to be assigned to Subject:
@@ -370,11 +366,10 @@ func (*SendNotificationRequest_CannotProxyGatewayConnection) isSendNotificationR
 
 func (*SendNotificationRequest_CannotProxyVnetConnection) isSendNotificationRequest_Subject() {}
 
-// CannotProxyGatewayConnection is the subject when the middleware used by the
-// gateway encounters an unrecoverable error and cannot let the connection
-// through. The middleware code is executed within a separate goroutine so if
-// the error wasn't passed to the Electron app, it would have been visible only
-// in the logs.
+// CannotProxyGatewayConnection is the subject when the middleware used by the gateway encounters an
+// unrecoverable error and cannot let the connection through. The middleware code is executed within
+// a separate goroutine so if the error wasn't passed to the Electron app, it would have been
+// visible only in the logs.
 type CannotProxyGatewayConnection struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	GatewayUri    string                 `protobuf:"bytes,1,opt,name=gateway_uri,json=gatewayUri,proto3" json:"gateway_uri,omitempty"`
@@ -435,13 +430,11 @@ func (x *CannotProxyGatewayConnection) GetError() string {
 	return ""
 }
 
-// CannotProxyVnetConnection describes which app couldn't have been proxied
-// through VNet and why.
+// CannotProxyVnetConnection describes which app couldn't have been proxied through VNet and why.
 type CannotProxyVnetConnection struct {
 	state     protoimpl.MessageState `protogen:"open.v1"`
 	TargetUri string                 `protobuf:"bytes,1,opt,name=target_uri,json=targetUri,proto3" json:"target_uri,omitempty"`
-	// route_to_app is the metadata associated with the app that the user was
-	// trying to reach.
+	// route_to_app is the metadata associated with the app that the user was trying to reach.
 	RouteToApp *RouteToApp `protobuf:"bytes,4,opt,name=route_to_app,json=routeToApp,proto3" json:"route_to_app,omitempty"`
 	// Types that are valid to be assigned to Reason:
 	//
@@ -537,8 +530,8 @@ func (*CannotProxyVnetConnection_CertReissueError) isCannotProxyVnetConnection_R
 
 func (*CannotProxyVnetConnection_InvalidLocalPort) isCannotProxyVnetConnection_Reason() {}
 
-// CertReissueError is sent as reason in CannotProxyVnetConnection when VNet
-// wasn't able to reissue a cert for a local proxy.
+// CertReissueError is sent as reason in CannotProxyVnetConnection when VNet wasn't able to reissue
+// a cert for a local proxy.
 type CertReissueError struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Error         string                 `protobuf:"bytes,1,opt,name=error,proto3" json:"error,omitempty"`
@@ -583,14 +576,13 @@ func (x *CertReissueError) GetError() string {
 	return ""
 }
 
-// InvalidLocalPort is sent as reason in CannotProxyVnetConnection when VNet
-// refused a connection because its local port did not match any TCP ports in
-// the spec of the app. The port is included in route_to_app as target_port.
+// InvalidLocalPort is sent as reason in CannotProxyVnetConnection when VNet refused a connection
+// because its local port did not match any TCP ports in the spec of the app. The port is included
+// in route_to_app as target_port.
 type InvalidLocalPort struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// tcp_ports represents valid port ranges for the app. Sent only if there's
-	// less than 10 port ranges to keep the UI clean and to limit how much data is
-	// sent on each failed attempt.
+	// tcp_ports represents valid port ranges for the app. Sent only if there's less than 10 port
+	// ranges to keep the UI clean and to limit how much data is sent on each failed attempt.
 	TcpPorts      []*PortRange `protobuf:"bytes,1,rep,name=tcp_ports,json=tcpPorts,proto3" json:"tcp_ports,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -770,13 +762,17 @@ func (*SendPendingHeadlessAuthenticationResponse) Descriptor() ([]byte, []int) {
 
 // Request for PromptMFA.
 type PromptMFARequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Reason        string                 `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
-	Totp          bool                   `protobuf:"varint,3,opt,name=totp,proto3" json:"totp,omitempty"`
-	Webauthn      bool                   `protobuf:"varint,4,opt,name=webauthn,proto3" json:"webauthn,omitempty"`
-	ClusterUri    string                 `protobuf:"bytes,5,opt,name=cluster_uri,json=clusterUri,proto3" json:"cluster_uri,omitempty"`
-	Sso           *SSOChallenge          `protobuf:"bytes,6,opt,name=sso,proto3" json:"sso,omitempty"`
-	PerSessionMfa bool                   `protobuf:"varint,7,opt,name=per_session_mfa,json=perSessionMfa,proto3" json:"per_session_mfa,omitempty"`
+	state      protoimpl.MessageState `protogen:"open.v1"`
+	Reason     string                 `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
+	Totp       bool                   `protobuf:"varint,3,opt,name=totp,proto3" json:"totp,omitempty"`
+	Webauthn   bool                   `protobuf:"varint,4,opt,name=webauthn,proto3" json:"webauthn,omitempty"`
+	ClusterUri string                 `protobuf:"bytes,5,opt,name=cluster_uri,json=clusterUri,proto3" json:"cluster_uri,omitempty"`
+	Sso        *SSOChallenge          `protobuf:"bytes,6,opt,name=sso,proto3" json:"sso,omitempty"`
+	// We may handle MFA options differently based on whether or not per-session
+	// MFA is required. For example, we invalidate TOTP as an option during
+	// per-session MFA but we may still need to know that the user has TOTP
+	// configured as an option.
+	PerSessionMfa bool `protobuf:"varint,7,opt,name=per_session_mfa,json=perSessionMfa,proto3" json:"per_session_mfa,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -971,8 +967,7 @@ func (x *PromptMFAResponse) GetTotpCode() string {
 type PromptHardwareKeyPINRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	RootClusterUri string                 `protobuf:"bytes,1,opt,name=root_cluster_uri,json=rootClusterUri,proto3" json:"root_cluster_uri,omitempty"`
-	// Specifies if a PIN is optional, allowing the user to set it up if left
-	// empty.
+	// Specifies if a PIN is optional, allowing the user to set it up if left empty.
 	PinOptional   bool `protobuf:"varint,2,opt,name=pin_optional,json=pinOptional,proto3" json:"pin_optional,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1442,8 +1437,8 @@ func (x *GetUsageReportingSettingsResponse) GetUsageReportingSettings() *UsageRe
 	return nil
 }
 
-// UsageReportingSettings contains information about usage reporting as
-// understood by the Electron app.
+// UsageReportingSettings contains information about usage reporting as understood by the Electron
+// app.
 type UsageReportingSettings struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Enabled       bool                   `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
@@ -1491,8 +1486,8 @@ func (x *UsageReportingSettings) GetEnabled() bool {
 // Request for ReportUnexpectedVnetShutdown.
 type ReportUnexpectedVnetShutdownRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// error is the error message with which VNet was shut down. Technically it
-	// can be empty, so consumers should account for that.
+	// error is the error message with which VNet was shut down. Technically it can be empty, so
+	// consumers should account for that.
 	Error         string `protobuf:"bytes,1,opt,name=error,proto3" json:"error,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
