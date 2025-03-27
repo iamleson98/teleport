@@ -37,12 +37,15 @@ service TshdEventsService {
   // UI. The request accepts a specific message rather than a generic string so
   // that the Electron is in control as to what message is displayed and how
   // exactly it looks.
-  rpc SendNotification(SendNotificationRequest) returns (SendNotificationResponse);
+  rpc SendNotification(SendNotificationRequest)
+      returns (SendNotificationResponse);
 
   // SendPendingHeadlessAuthentication notifies the Electron app of a pending
   // headless authentication, which it can use to initiate headless
   // authentication resolution in the UI.
-  rpc SendPendingHeadlessAuthentication(SendPendingHeadlessAuthenticationRequest) returns (SendPendingHeadlessAuthenticationResponse);
+  rpc SendPendingHeadlessAuthentication(
+      SendPendingHeadlessAuthenticationRequest)
+      returns (SendPendingHeadlessAuthenticationResponse);
 
   // PromptMFA notifies the Electron app that the daemon wants to prompt for
   // MFA. If TOTP is supported, the Electron app can return a totp code to
@@ -57,33 +60,39 @@ service TshdEventsService {
 
   // PromptHardwareKeyPIN notifies the Electron app that the daemon is waiting
   // for the user to provide the hardware key PIN.
-  rpc PromptHardwareKeyPIN(PromptHardwareKeyPINRequest) returns (PromptHardwareKeyPINResponse);
+  rpc PromptHardwareKeyPIN(PromptHardwareKeyPINRequest)
+      returns (PromptHardwareKeyPINResponse);
 
   // PromptHardwareKeyTouch notifies the Electron app that the daemon is waiting
   // for the user to touch the hardware key. When the daemon detects the touch,
   // it cancels the prompt.
-  rpc PromptHardwareKeyTouch(PromptHardwareKeyTouchRequest) returns (PromptHardwareKeyTouchResponse);
+  rpc PromptHardwareKeyTouch(PromptHardwareKeyTouchRequest)
+      returns (PromptHardwareKeyTouchResponse);
 
   // PromptHardwareKeyPINChange notifies the Electron app that the daemon is
   // waiting for the user to change the hardware key PIN.
-  rpc PromptHardwareKeyPINChange(PromptHardwareKeyPINChangeRequest) returns (PromptHardwareKeyPINChangeResponse);
+  rpc PromptHardwareKeyPINChange(PromptHardwareKeyPINChangeRequest)
+      returns (PromptHardwareKeyPINChangeResponse);
 
   // ConfirmHardwareKeySlotOverwrite displays a dialog prompting the user to
   // confirm whether the slot's private key and certificate should be
   // overwritten.
-  rpc ConfirmHardwareKeySlotOverwrite(ConfirmHardwareKeySlotOverwriteRequest) returns (ConfirmHardwareKeySlotOverwriteResponse);
+  rpc ConfirmHardwareKeySlotOverwrite(ConfirmHardwareKeySlotOverwriteRequest)
+      returns (ConfirmHardwareKeySlotOverwriteResponse);
 
   // GetUsageReportingSettings returns the current state of usage reporting.
   // At the moment, the user cannot toggle usage reporting on and off without
   // shutting down the app, with the only exception being the first start of the
   // app when they're prompted about telemetry. Hence why this is an RPC and not
   // information passed over argv to tsh daemon.
-  rpc GetUsageReportingSettings(GetUsageReportingSettingsRequest) returns (GetUsageReportingSettingsResponse);
+  rpc GetUsageReportingSettings(GetUsageReportingSettingsRequest)
+      returns (GetUsageReportingSettingsResponse);
 
   // ReportUnexpectedVnetShutdown is sent by tsh daemon when VNet exits outside
   // of the request-response cycle of Start and Stop RPCs of VnetService. The
   // Electron app is then able to update the state of VNet in the UI.
-  rpc ReportUnexpectedVnetShutdown(ReportUnexpectedVnetShutdownRequest) returns (ReportUnexpectedVnetShutdownResponse);
+  rpc ReportUnexpectedVnetShutdown(ReportUnexpectedVnetShutdownRequest)
+      returns (ReportUnexpectedVnetShutdownResponse);
 }
 
 // Request for Relogin.
@@ -165,9 +174,7 @@ message CannotProxyVnetConnection {
 
 // CertReissueError is sent as reason in CannotProxyVnetConnection when VNet
 // wasn't able to reissue a cert for a local proxy.
-message CertReissueError {
-  string error = 1;
-}
+message CertReissueError { string error = 1; }
 
 // InvalidLocalPort is sent as reason in CannotProxyVnetConnection when VNet
 // refused a connection because its local port did not match any TCP ports in
@@ -201,6 +208,10 @@ message PromptMFARequest {
   bool webauthn = 4;
   string cluster_uri = 5;
   SSOChallenge sso = 6;
+  // We may handle MFA options differently based on whether or not per-session
+  // MFA is required. For example, we invalidate TOTP as an option during
+  // per-session MFA but we may still need to know that the user has TOTP
+  // configured as an option.
   bool per_session_mfa = 7;
 }
 
@@ -213,9 +224,7 @@ message SSOChallenge {
 }
 
 // Response for PromptMFA.
-message PromptMFAResponse {
-  string totp_code = 1;
-}
+message PromptMFAResponse { string totp_code = 1; }
 
 // Request for PromptHardwareKeyPIN.
 message PromptHardwareKeyPINRequest {
@@ -232,17 +241,13 @@ message PromptHardwareKeyPINResponse {
 }
 
 // Request for PromptHardwareKeyTouchRequest.
-message PromptHardwareKeyTouchRequest {
-  string root_cluster_uri = 1;
-}
+message PromptHardwareKeyTouchRequest { string root_cluster_uri = 1; }
 
 // Response for PromptHardwareKeyTouch.
 message PromptHardwareKeyTouchResponse {}
 
 // Response for PromptHardwareKeyPINChange.
-message PromptHardwareKeyPINChangeRequest {
-  string root_cluster_uri = 1;
-}
+message PromptHardwareKeyPINChangeRequest { string root_cluster_uri = 1; }
 
 // Response for PromptHardwareKeyPINChange.
 message PromptHardwareKeyPINChangeResponse {
@@ -278,9 +283,7 @@ message GetUsageReportingSettingsResponse {
 
 // UsageReportingSettings contains information about usage reporting as
 // understood by the Electron app.
-message UsageReportingSettings {
-  bool enabled = 1;
-}
+message UsageReportingSettings { bool enabled = 1; }
 
 // Request for ReportUnexpectedVnetShutdown.
 message ReportUnexpectedVnetShutdownRequest {
